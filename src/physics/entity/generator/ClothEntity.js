@@ -1,11 +1,70 @@
+/**
+ * @author nethe550
+ * @license GPL-3.0-only
+ * @description A cloth entity generator.
+ */
+
+/**
+ * @callback FixedPointGenerator
+ * @param {number} x - The x coordinate of the point.
+ * @param {number} y - The y coordinate of the point.
+ * @returns {boolean} Whether the point should be fixed.
+ * 
+ * @callback MassGenerator
+ * @param {number} x - The x coordinate of the point.
+ * @param {number} y - The y coordinate of the point.
+ * @returns {number} The mass of the point.
+ * 
+ * @callback FrictionGenerator
+ * @param {number} x - The x coordinate of the point.
+ * @param {number} y - The y coordinate of the point.
+ * @returns {number} The global friction of the point.
+ * 
+ * @callback StiffnessGenerator
+ * @param {number} x - The x index of the spring.
+ * @param {number} y - The y index of the spring.
+ * @returns {number} The stiffness of the spring.
+ * 
+ * @callback PointStyleGenerator
+ * @param {number} x - The x coordinate of the point.
+ * @param {number} y - The y coordinate of the point.
+ * @returns {StyleFactory} The point style.
+ * 
+ * @callback SpringStyleGenerator
+ * @param {number} x - The x index of the spring.
+ * @param {number} y - The y index of the spring.
+ * @returns {StyleFactory} The spring style.
+ */
+
 import Vector2 from '../../../util/vector/Vector2.js';
 import Point from '../../primitives/Point.js';
 import Spring from '../../primitives/Spring.js';
 import Entity from '../Entity.js';
 import StyleFactory from '../../../render/style/StyleFactory.js';
 
+/**
+ * A cloth entity generator.
+ * @class
+ */
 class ClothEntity extends Entity {
 
+    /**
+     * Creates a new cloth entity.
+     * @constructor
+     * @param {number} iterations - The number of physics iterations to perform per update. 
+     * @param {Vector2} position - The position of the cloth entity.
+     * @param {Vector2} size - The overall size of the cloth entity.
+     * @param {number} xSegments - The number of horizontal segments of the cloth entity.
+     * @param {number} ySegments - The number of vertical segments of the cloth entity.
+     * @param {boolean} diagonals - Whether to generate diagonal springs.
+     * @param {Vector2} gravity - A constant force affecting the entity's point.
+     * @param {FixedPointGenerator} fixedPoints - A generator to determine what points are fixed.
+     * @param {MassGenerator} masses - A generator to determine the masses of points. 
+     * @param {FrictionGenerator} frictions - A generator to determine the frictions of the points.
+     * @param {StiffnessGenerator} stiffness - A generator to determine the stiffness of the springs.
+     * @param {PointStyleGenerator} pointStyles - A generator to determine the styles of the points.
+     * @param {SpringStyleGenerator} springStyles - A generator to determine the styles of the springs.
+     */
     constructor(iterations=8, position=Vector2.zero, size=Vector2.one, xSegments=2, ySegments=2, diagonals=true, gravity=Vector2.down, fixedPoints=(x,y)=>(x % 4 === 0 && y === 0), masses=(x,y)=>1, frictions=(x,y)=>0.03, stiffness=(x,y)=>2, pointStyles=(x,y)=>StyleFactory.DefaultStyle, springStyles=(x,y)=>StyleFactory.DefaultStyle) {
         const p = new Set();
         const sps = new Set();

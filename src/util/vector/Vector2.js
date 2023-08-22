@@ -1,9 +1,14 @@
 /**
- * !package nethe-utils
- * 
  * @author nethe550
- * @license MIT
+ * @license GPL-3.0-only
  * @description The Vector2 class.
+ */
+
+/**
+ * @callback OperatorCallback
+ * @param {number} a - A component from the first value.
+ * @param {number} b - A component from the second value.
+ * @returns {number} The resulting value.
  */
 
 /**
@@ -13,26 +18,33 @@
 class Vector2 {
 
     /**
-     * !Appended method not included in package
+     * A vector with components in a random range between [0->1).
+     * @type {Vector2}
      */
     static get random() {
         return new Vector2(Math.random(), Math.random());
     }
 
     /**
-     * !Appended method not included in package
+     * A vector representing a point on the circumference of the unit circle.
+     * @type {Vector2}
      */
     static get randomUnitCircle() {
         return Vector2.random.mul(2).sub(1).normalized;
     }
 
     /**
-     * !Appended method not included in package
+     * A vector with components set to Number.EPSILON.
+     * @type {Vector2}
      */
     static get EPSILON() {
         return new Vector2(Number.EPSILON, Number.EPSILON);
     }
 
+    /**
+     * A vector with components set to Number.MAX_VALUE.
+     * @type {Vector2}
+     */
     static get MAX_VALUE() {
         return new Vector2(Number.MAX_VALUE, Number.MAX_VALUE);
     }
@@ -149,7 +161,6 @@ class Vector2 {
     }
 
     /**
-     * ?Modified
      * Adds a value to this vector.
      * @param {Vector2|number} v - The value to add.
      * @returns {Vector2} The sum of the vector and value.
@@ -159,7 +170,6 @@ class Vector2 {
     }
 
     /**
-     * ?Modified
      * Subtracts a value from this vector.
      * @param {Vector2|number} v - The value to subtract.
      * @returns {Vector2} The difference of the vector and value.
@@ -169,7 +179,6 @@ class Vector2 {
     }
 
     /**
-     * ?Modified
      * Multiplies this vector by a value.
      * @param {Vector2|number} v - The value to multiply by.
      * @returns {Vector2} The product of the vector and value.
@@ -179,7 +188,6 @@ class Vector2 {
     }
 
     /**
-     * ?Modified
      * Divides this vector by a value.
      * @param {Vector2|number} v - The value to divide by.
      * @returns {Vector2} The quotient of the vector and value.
@@ -189,8 +197,19 @@ class Vector2 {
     }
 
     /**
-     * !Appended method not included in package
-     * ?Upgrade
+     * Performs arbitrary component-wise arithmetic on vectors and numbers.
+     * 
+     * Valid identities:
+     * - a: `Vector2`, b: `Vector2`, op: `(function(a: number, b: number) => number)` -> `Vector2`
+     * - a: `Vector2`, b: `number` , op: `(function(a: number, b: number) => number)` -> `Vector2`
+     * - a: `number` , b: `Vector2`, op: `(function(a: number, b: number) => number)` -> `Vector2`
+     * - a: `number` , b: `number` , op: `(function(a: number, b: number) => number)` -> `number`
+     * 
+     * @throws {TypeError}
+     * @param {Vector2|number} a - The first vector or number.
+     * @param {Vector2|number} b - The second vector or number.
+     * @param {OperatorCallback} op - The component-wise operator.
+     * @return {Vector2|number} The resulting vector or value.
      */
     static Arithmetic(a, b, op=null) {
         if (!op || typeof op !== 'function') throw new TypeError(`Parameter 'op' expected to be a function with the identity (a: number, b: number) => number.`);
@@ -348,14 +367,19 @@ class Vector2 {
     }
 
     /**
-     * !Appended method not included in package
+     * Gets the absolute value of a vector component-wise.
+     * @param {Vector2} v - The vector.
+     * @returns {Vector2} A new vector with the component-wise absolute value of the provided vector.
      */
     static Abs(v) {
         return new Vector2(Math.abs(v.x), Math.abs(v.y));
     }
 
     /**
-     * !Appended method not included in package
+     * Checks if a vector is (roughly) equal to zero, component-wise.
+     * @param {Vector2} v - The vector to check.
+     * @param {number} epsilon - The allowable tolerance around zero.
+     * @returns {boolean} Whether the vector's components are both less than the epsilon value provided.
      */
     static IsZero(v=Vector2.zero, epsilon=0) {
         if (epsilon === 0) return v.x === 0 && v.y === 0;

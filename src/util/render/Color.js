@@ -1,8 +1,6 @@
 /**
- * !package nethe-utils
- * 
  * @author nethe550
- * @license MIT
+ * @license GPL-3.0-only
  * @description A collection of color utilities.
  */
 
@@ -19,10 +17,34 @@ const clamp = v => Math.min(Math.max(Math.floor(Math.abs(v)), 0), 255);
  */
 class Color {
 
+    /**
+     * The color white.
+     * @type {Color}
+     */
     static white = new Color(255, 255, 255);
+
+    /**
+     * The color black.
+     * @type {Color}
+     */
     static black = new Color(0, 0, 0);
+
+    /**
+     * The color red.
+     * @type {Color}
+     */
     static red = new Color(255, 0, 0);
+
+    /**
+     * The color green.
+     * @type {Color}
+     */
     static green = new Color(0, 255, 0);
+
+    /**
+     * The color blue.
+     * @type {Color}
+     */
     static blue = new Color(0, 0, 255);
 
     /**
@@ -33,12 +55,10 @@ class Color {
      * @param {number} a - The alpha (transparency) component of the color.
      */
     constructor(r, g, b, a = 255) {
-
         this._r = clamp(r);
         this._g = clamp(g);
         this._b = clamp(b);
         this._a = clamp(a) || 255;
-
     }
 
     /**
@@ -112,7 +132,9 @@ class Color {
     }
 
     /**
-     * !Appended method not included in package
+     * Checks whether an object is a valid color.
+     * @param {Object} color - The object to check.
+     * @returns {boolean} Whether the provided object is a valid color.
      */
     static IsColor(color) {
         return (color instanceof Color || typeof color === 'object') && 

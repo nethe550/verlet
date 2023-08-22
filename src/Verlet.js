@@ -10,7 +10,7 @@ import MouseInteraction from './interaction/MouseInteraction.js';
 
 class Verlet {
 
-    constructor(canvas, playOnStart=false, tps=60, interactable=true, interactionDistance=25, interactionColor=Color.blue, interactionFixedStyle=StyleFactory.DefaultStyle, ...entities) {
+    constructor(canvas, playOnStart=false, tps=60, interactable=true, interactionDistance=25, interactionStyle=StyleFactory.DefaultStyle, interactionFixedStyle=StyleFactory.DefaultStyle, ...entities) {
         if (!canvas) throw new TypeError(`Parameter 'canvas' must be a HTMLCanvasElement or a valid CSS query string.\n(Provided: ${typeof canvas === 'object' ? JSON.stringify(canvas, null, 4) : canvas.toString()})`);
         this.simulation = new Simulation(...entities);
         this.renderer = new Renderer(canvas);
@@ -22,9 +22,9 @@ class Verlet {
         this._interactable = interactable;
         if (this._interactable) {
             this.interactionDistance = interactionDistance;
-            this.interactionColor = interactionColor;
+            this.interactionStyle = interactionStyle;
             this.interactionFixedStyle = interactionFixedStyle;
-            this.mouseInteraction = new MouseInteraction(this.simulation, this.renderer, this.interactionDistance, this.interactionColor, this.interactionFixedStyle);
+            this.mouseInteraction = new MouseInteraction(this.simulation, this.renderer, this.interactionDistance, this.interactionStyle, this.interactionFixedStyle);
         }
 
         this._playing = playOnStart;
@@ -111,9 +111,9 @@ class Verlet {
         }
         if (i && !this._interactable) {
             this.interactionDistance = 25;
-            this.interactionColor = Color.blue;
+            this.interactionStyle = StyleFactory.DefaultStyle;
             this.interactionFixedStyle = StyleFactory.DefaultStyle;
-            this.mouseInteraction = new MouseInteraction(this.simulation, this.renderer, this.interactionDistance, this.interactionColor, this.interactionFixedStyle);
+            this.mouseInteraction = new MouseInteraction(this.simulation, this.renderer, this.interactionDistance, this.interactionStyle, this.interactionFixedStyle);
             this._interactable = true;
         }
         else if (!i && this._interactable) {

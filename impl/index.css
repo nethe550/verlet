@@ -1,0 +1,35 @@
+html, body {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    box-sizing: border-box;
+
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    background: rgb(35,35,40);
+
+}
+
+canvas#sim {
+
+    background: rgb(55,55,60);
+
+    border-radius: 6px;
+
+    box-shadow: 8px 8px 11px 0 rgba(0,0,0,0.25);
+
+}

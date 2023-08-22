@@ -2,11 +2,11 @@ import Vector2 from '../src/util/vector/Vector2.js';
 import Color from '../src/util/render/Color.js';
 
 import ClothEntity from '../src/physics/entity/generator/ClothEntity.js';
+import NGonEntity from '../src/physics/entity/generator/NGonEntity.js';
 
 import StyleFactory from '../src/render/style/StyleFactory.js';
 
 import Verlet from '../src/Verlet.js';
-import NGonEntity from '../src/physics/entity/generator/NGonEntity.js';
 
 const psize = 5;
 const activeStyle = new StyleFactory().Fill(Color.green).Stroke(Color.blue).Size(psize * 2).Thickness(2);
@@ -27,7 +27,7 @@ const size = new Vector2(300, 300);
 const position = v.dimensions.mul(new Vector2(1/3, 0.5)).sub(size.mul(0.5)).add(size.div(seg).mul(0.5));
 
 const fixedPoints = (x, y) => (x % 4 === 0 && y === 0);
-const pointStyles = (x, y) => fixedPoints(x, y) ? fixedStyle : StyleFactory.DefaultStyle.Size(psize);
+const pointStyles = (x, y) => fixedPoints(x, y) ? fixedStyle.Copy() : StyleFactory.DefaultStyle.Size(psize);
 const springStyles = (x, y) => new StyleFactory().Stroke(new Color(64,128,64));
 
 const c = new ClothEntity(
